@@ -10,7 +10,10 @@ interface UserServiceInterface
 {
     public function obtainApiKey(User $user): string;
 
-    public function getAll(): ArrayCollection;
+    /**
+     * @return User[]
+     */
+    public function getAll(): array;
 
     public function create(UserDTO $userDTO): User;
 

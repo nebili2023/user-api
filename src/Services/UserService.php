@@ -6,13 +6,14 @@ use App\DTO\UserDTO;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserService implements UserServiceInterface
 {
     public function __construct(
         public UserRepositoryInterface $userRepository,
-        public TokenStorageInterface $tokenStorage
+        public Security $security
     ) {
     }
 
@@ -25,9 +26,10 @@ class UserService implements UserServiceInterface
         return $apiKey;
     }
 
-    public function getAll(): ArrayCollection
+    /** @inheritDoc */
+    public function getAll(): array
     {
-        return $this->userRepository->findAll();
+        return $this->userRepository->findBy([], ['id' => 'ASC']);
     }
 
     public function create(UserDTO $userDTO): User
@@ -49,9 +51,7 @@ class UserService implements UserServiceInterface
         $user->setName($userDTO->getName());
         $user->setPhoneNumber($userDTO->getPhoneNumber());
 
-        $authContextUser = $this->tokenStorage->getToken()->getUser();
-
-        if ( !is_null($authContextUser) && $authContextUser->isAdmin()) {
+        if ( !is_null($this->security->getUser()) && $this->security->getUser()->isAdmin()) {
             $user->setRoles($userDTO->getRoles());
         }
 

@@ -13,17 +13,22 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            provider: app_user_provider
+
+        login:
+            pattern: ^/login
             stateless: true
 
             json_login:
                 check_path: api_login
                 username_path: email
 
-            access_token:
-                token_handler: App\Security\ApiKeyHandler
+        main:
+            lazy: true
+            provider: app_user_provider
+            stateless: true
+
+            custom_authenticators:
+                - App\Security\ApiKeyAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

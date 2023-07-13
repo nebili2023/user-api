@@ -4,9 +4,10 @@ Installation
 
 Before creating your first Symfony application you must:
 
-Install PHP 8.1 or higher and these PHP extensions (which are installed and enabled by default in most PHP 8 installations): Ctype, iconv, PCRE, Session, SimpleXML, and Tokenizer;
+* Install PHP 8.1 or higher and these PHP extensions (which are installed and enabled by default in most PHP 8 installations): Ctype, iconv, PCRE, Session, SimpleXML, and Tokenizer;
 
-Install Composer, which is used to install PHP packages.
+
+* Install Composer, which is used to install PHP packages.
 
 Optionally, you can also install Symfony CLI. This creates a binary called symfony that provides all the tools you need to develop and run your Symfony application locally.
 
