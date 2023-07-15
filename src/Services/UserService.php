@@ -5,9 +5,7 @@ namespace App\Services;
 use App\DTO\UserDTO;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserService implements UserServiceInterface
 {

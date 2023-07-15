@@ -11,10 +11,11 @@ class UserVoter extends Voter
     const CREATE_USERS = 'create_users';
     const EDIT_USERS = 'edit_users';
     const VIEW_USERS = 'view_users';
+    const LIST_USERS = 'list_users';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        if (!in_array($attribute, [self::CREATE_USERS, self::EDIT_USERS, self::VIEW_USERS])) {
+        if (!in_array($attribute, [self::CREATE_USERS, self::EDIT_USERS, self::VIEW_USERS, self::LIST_USERS])) {
             return false;
         }
 
@@ -35,10 +36,16 @@ class UserVoter extends Voter
         }
 
         return match ($attribute) {
+            self::LIST_USERS => $this->canList($user),
             self::VIEW_USERS => $this->canView($user, $subject),
             self::CREATE_USERS => $this->canCreate($user),
             self::EDIT_USERS => $this->canEdit($user, $subject)
         };
+    }
+
+    private function canList(User $user): bool
+    {
+        return $user->isAdmin();
     }
 
     private function canView(User $user, ?User $subject): bool

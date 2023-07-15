@@ -9,7 +9,7 @@ class UserDTO
 {
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Email]
-    public string $email = "";
+    private string $email = "";
 
     #[Assert\Choice(choices: User::ROLES, multiple: true)]
     private array $roles = [];

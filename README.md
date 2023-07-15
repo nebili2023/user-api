@@ -28,3 +28,20 @@ In order to start the DB server in docker run:
 ```
 docker-compose up -d
 ```
+
+Testing
+=
+
+To run unit tests execute
+```
+php bin/phpunit --testsuite unit
+```
+
+And for the functional tests
+```
+symfony console --env=test doctrine:database:drop --force
+symfony console --env=test doctrine:database:create
+symfony console --env=test doctrine:schema:create
+symfony console --env=test doctrine:fixtures:load
+php bin/phpunit --testsuite functional
+```
