@@ -8,6 +8,8 @@ use App\Services\NotifierServiceInterface;
 use App\Services\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserControllerTest extends WebTestCase
 {
@@ -26,7 +28,10 @@ class UserControllerTest extends WebTestCase
 
     public function testListAsAnonymous(): void
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
 
         $client->request('GET', '/users');
 
@@ -35,7 +40,10 @@ class UserControllerTest extends WebTestCase
 
     public function testListAsNonAdmin(): void
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
 
         $user = $this->retrieveUser('user.test.one@mailtest.io');
         $client->loginUser($user);
@@ -63,7 +71,10 @@ class UserControllerTest extends WebTestCase
 
     public function testCreateAsNonAdmin(): void
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
 
         $user = $this->retrieveUser('user.test.one@mailtest.io');
         $client->loginUser($user);
@@ -155,7 +166,10 @@ class UserControllerTest extends WebTestCase
 
     public function testUpdateAnyAsNonAdmin(): void
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
 
         $user = $this->retrieveUser('user.test.one@mailtest.io');
         $client->loginUser($user);
@@ -213,7 +227,10 @@ class UserControllerTest extends WebTestCase
 
     public function testUpdateAnyAsAdminWithInvalidData(): void
     {
+        $this->expectException(HttpException::class);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
 
         $user = $this->retrieveUser('user.test.admin@mailtest.io');
         $client->loginUser($user);
@@ -234,7 +251,10 @@ class UserControllerTest extends WebTestCase
 
     public function testViewAnyAsNonAdmin(): void
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
 
         $user = $this->retrieveUser('user.test.one@mailtest.io');
         $client->loginUser($user);
